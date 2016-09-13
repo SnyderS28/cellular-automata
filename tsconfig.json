@@ -3,6 +3,12 @@
         "strictNullChecks": true,
         "module": "commonjs",
         "outDir": "bin",
-        "allowJs": true
-    }
+        "allowJs": true,
+        "target": "es5",
+        "noImplicitAny": true
+    },
+    "exclude": [
+        "node_modules",
+        "bin"
+    ]
 }
