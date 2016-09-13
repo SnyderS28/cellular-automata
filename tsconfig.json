@@ -3,7 +3,6 @@
         "strictNullChecks": true,
         "module": "commonjs",
         "outDir": "bin",
-        "allowJs": true,
         "target": "es5",
         "noImplicitAny": true
     },
