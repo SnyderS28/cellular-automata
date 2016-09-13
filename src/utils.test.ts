@@ -71,5 +71,41 @@ describe('createBoard', () => {
         const actual = createBoard(3, initialRow, ['000'])
         expect(actual[0]).to.equal(initialRow)
     })
+    it('should return an array that adheres to pattern rules', function() {
+        const tests = [
+            {
+                initialRow: '0000',
+                length: 3,
+                activePatterns: ['000'],
+                expected: [
+                    '0000',
+                    '1111',
+                    '0000'
+                ]
+            },{
+                initialRow: '10101',
+                length: 3,
+                activePatterns: ['000'],
+                expected: [
+                    '10101',
+                    '00000',
+                    '11111'
+                ]
+            }, {
+                initialRow: '10101',
+                length: 3,
+                activePatterns: ['000', '101'],
+                expected: [
+                    '10101',
+                    '01010',
+                    '00100'
+                ]
+            }
+        ]
+        tests.forEach(({initialRow, length, activePatterns, expected}) => {
+            const actual = createBoard(length, initialRow, activePatterns)
+            expect(actual).to.eql(expected)
+        })
+    })
 })
 
