@@ -40,3 +40,25 @@ function convertRelativeToAbsoluteIndexes(
 ): number {
     return (arrayLength + originalIndex + relativeIndex) % arrayLength
 }
+
+export function createBoard(
+        length: number,
+        initialRow: string,
+        activePatterns: string[]
+    ): string[] {
+    const board = [initialRow]
+
+    for (let i = 0; i < length - 1; i++) {
+        board.push(
+            createNextRow(
+                getLastItem(board),
+                activePatterns
+            )
+        )
+    }
+    return board
+}
+
+function getLastItem(array: any[]) {
+    return array[array.length -1]
+}

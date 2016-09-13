@@ -59,16 +59,16 @@ describe('createNextRow', () => {
 
 describe('createBoard', () => {
     it('should return an array', function() {
-        const actual = createBoard(3, '000')
+        const actual = createBoard(3, '000', ['000'])
         expect(actual).to.be.an('array')
     })
     it('should return an array of a given length', function() {
-        const actual = createBoard(5, '01010')
+        const actual = createBoard(5, '01010', ['000'])
         expect(actual.length).to.equal(5)
     })
     it('should return an array with the initial row as a first item', function() {
         const initialRow = '010'
-        const actual = createBoard(3, initialRow)
+        const actual = createBoard(3, initialRow, ['000'])
         expect(actual[0]).to.equal(initialRow)
     })
 })
