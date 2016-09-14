@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "tsc --watch & mocha bin/*.test.js --watch"
+    "test": "tsc --watch & mocha bin/*.test.js --watch",
+    "bundle": "webpack"
   },
   "keywords": [],
   "author": "marzelin <marzelin@gmail.com>",
@@ -17,7 +18,10 @@
     "@types/react-dom": "^0.14.16",
     "chai": "^3.5.0",
     "mocha": "^3.0.2",
-    "typescript": "^2.0.2"
+    "source-map-loader": "^0.1.5",
+    "ts-loader": "^0.8.2",
+    "typescript": "^2.0.2",
+    "webpack": "^1.13.2"
   },
   "dependencies": {
     "react": "^15.3.1",
