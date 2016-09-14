@@ -21,7 +21,7 @@ export function createRandomRow(length: number): string {
 
 /**
  * This function returns a random value, either 0 or 1
- * @returns {String} randomly either 0 or 1
+ * @returns {Number} randomly either 0 or 1
  */
 function generateRandomBinaryValue(): number {
     return Math.floor(Math.random() * 2)
@@ -128,4 +128,37 @@ export function createBoard(
  */
 function getLastItem<T>(array: T[]):T {
     return array[array.length -1]
+}
+
+/**
+ * This function generates random active patterns.
+ * Each pattern is a string of 3 chars, eiter 0 or 1 i.e '010'
+ * @returns {Array} An array of active patterns (minimum 0, max 9 items)
+ */
+export function generateRandomActivePatterns(): string[] {
+    const activePatterns: string[] = []
+    for (let i = 0; i < 9; i++) {
+        const randomBinaryValue = generateRandomBinaryValue()
+        if (randomBinaryValue) {
+            const iBinaryString = i.toString(2)
+            activePatterns.push(
+                prependZeros(iBinaryString, 3)
+            )
+        }
+    }
+    return activePatterns
+}
+
+/**
+ * This function prepends a given string with zeroes to make it of a given length
+ * @param {String} binaryString The string that should be prepended
+ * @param {Number} desiredStringLength The desired length of a string
+ * @returns {String} Returns a string of a given length with prepended zeroes if necessary
+ */
+function prependZeros(binaryString: string, desiredStringLength: number) {
+    let prependedString = binaryString
+    while (prependedString.length < desiredStringLength) {
+        prependedString = '0' + prependedString
+    }
+    return prependedString
 }

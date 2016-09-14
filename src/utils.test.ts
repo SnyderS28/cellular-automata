@@ -3,7 +3,8 @@ import {expect} from 'chai'
 import {
     createRandomRow,
     createNextRow,
-    createBoard
+    createBoard,
+    generateRandomActivePatterns
 } from './utils'
 
 describe('createRandomRow', () => {
@@ -109,3 +110,28 @@ describe('createBoard', () => {
     })
 })
 
+describe('generateRandomActivePatterns', () => {
+    it('should return an array of active patterns', function() {
+        const actual = generateRandomActivePatterns()
+        expect(actual).to.be.an('array')
+        actual.forEach(pattern =>
+            expect(pattern).to.match(/[01]{3}/)
+        )
+    })
+    it('should return an array of length between 0 and 9', function() {
+        for (let i=0; i<100; i++) {
+            const actual = generateRandomActivePatterns()
+            expect(actual.length).to.be.within(0,9)
+        }
+    })
+    it('should generate random number of active patterns', function() {
+        const actualLengths: number[] = []
+        for (let i = 0; i < 10; i++) {
+            const actualLength = generateRandomActivePatterns().length
+            if (actualLengths.indexOf(actualLength) < 0) {
+                actualLengths.push(actualLength)                
+            }
+        }
+        expect(actualLengths).to.have.length.above(1)
+    })
+})
