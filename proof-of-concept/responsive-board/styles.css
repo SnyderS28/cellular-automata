@@ -1,0 +1,38 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.masthead {
+     background-color: #DE9E36;
+     text-align: center;
+}
+
+.board {
+    flex-grow: 1;
+    background-color: #829CBC;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    width: calc(100% - 2 * 20px);
+}
+
+@media (min-width: 940px) {
+    .board {
+        width: 900px;
+    }
+}
+
+.footer {
+    background-color: #37323E;
+     text-align: center;
+}
