@@ -1,0 +1,25 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: mediumaquamarine;
+}
+
+.board {
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    background-color: seagreen;
+    box-shadow: 3px 3px 10px 8px rgba(0,0,0,0.3);
+}
+
+.cell {
+    width: 10px;
+    height: 10px;
+    float: left;
+}
+
+.cell--active {
+    background-color: #0F4C5C;
+}
