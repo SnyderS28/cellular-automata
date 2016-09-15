@@ -1,13 +1,22 @@
 import * as React from 'react'
 import Cell from './cell'
 
-export default class extends React.PureComponent<{cells: boolean[]}, {}>{
+export default class extends React.PureComponent<{
+    cells: boolean[],
+    rowIndex: number,
+    alterBoard: (rowIndex: number, cellIndex: number) => void
+}, {}>{
     render() {
-        const {cells} = this.props
+        const {cells, rowIndex, alterBoard} = this.props
         return (
             <div>{
-                cells.map(isActive =>
-                    <Cell isActive={isActive}/>
+                cells.map((isActive, i) =>
+                    <Cell
+                    isActive={isActive}
+                    rowIndex={rowIndex}
+                    alterBoard={alterBoard}
+                    cellIndex={i}
+                    key={i}/>
                 )
             }</div> )
     }

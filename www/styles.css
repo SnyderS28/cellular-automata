@@ -52,6 +52,17 @@ html, body {
     border: 1px dashed #0F4C5C;
 }
 
+.pattern__cell {
+    width: 10px;
+    height: 10px;
+    float: left;
+    background-color: seagreen;
+}
+
+.pattern__cell--active {
+    background-color: #0F4C5C;
+}
+
 .board {
     clear: both;
     width: 500px;
@@ -66,10 +77,19 @@ html, body {
     height: 10px;
     float: left;
     background-color: seagreen;
+    box-sizing: border-box;
+    border: 2px dashed seagreen;
+    cursor: pointer;
+    transition: border .3s;
+}
+
+.cell:hover {
+    border: 2px dashed #482728;
 }
 
 .cell--active {
     background-color: #0F4C5C;
+    border: 2px dashed #0F4C5C;
 }
 
 .footer {

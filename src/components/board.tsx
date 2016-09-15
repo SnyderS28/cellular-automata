@@ -1,7 +1,10 @@
 import * as React from 'react'
 import Row from './row'
 
-export default class extends React.PureComponent<{rows: string[]}, {}>{
+export default class extends React.PureComponent<{
+    rows: string[],
+    alterBoard: (rowIndex: number, cellIndex: number) => void
+}, {}>{
     render() {
         /**
          * Represents the board state
@@ -14,8 +17,12 @@ export default class extends React.PureComponent<{rows: string[]}, {}>{
         )
         return (
             <div className="board">{
-                rows.map(row => (
-                        <Row cells={row}/>
+                rows.map((row, i) => (
+                        <Row
+                        cells={row}
+                        key={i}
+                        rowIndex={i}
+                        alterBoard={this.props.alterBoard}/>
                     ))
             }</div>
         )

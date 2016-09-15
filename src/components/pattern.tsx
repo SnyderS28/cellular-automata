@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Cell from './cell'
+import Cell from './pattern-cell'
 export default class extends React.PureComponent<{
     pattern: boolean[],
     signature: string,
@@ -13,8 +13,8 @@ export default class extends React.PureComponent<{
                 className="pattern-group"
                 onClick={() => onClick(signature, !state)}>
                 <div className="pattern">{
-                    pattern.map(isActive =>
-                        <Cell isActive={isActive}/>
+                    pattern.map((isActive, i) =>
+                        <Cell isActive={isActive} key={i}/>
                     )
                 }</div>
                 <Cell isActive={state}/>

@@ -19,7 +19,7 @@ export default class extends React.PureComponent<{
                 "101",
                 "110",
                 "111"
-            ]
+            ].reverse()
         }
     }
     render() {

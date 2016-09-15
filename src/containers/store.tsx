@@ -6,29 +6,57 @@ import {createBoard, createRandomRow, generateRandomActivePatterns} from '../uti
 export default class extends React.PureComponent<{}, {
     boardState: string[],
     activePatterns: string[],
-    initialRow: string
+    initialRow: string,
+    numOfRows: number,
+    numOfCellsInRow: number
 }> {
     constructor() {
         super()
         const activePatterns = generateRandomActivePatterns()
-        const initialRow = createRandomRow(50)
+        const numOfRows = 50
+        const numOfCellsInRow = 50
+        const initialRow = createRandomRow(numOfCellsInRow)
         this.state = {
-            boardState: createBoard(50, initialRow, activePatterns),
+            boardState: createBoard(numOfRows, initialRow, activePatterns),
             activePatterns,
-            initialRow
+            initialRow,
+            numOfRows,
+            numOfCellsInRow
         }
         this.changePattern = this.changePattern.bind(this)
+        this.alterBoard = this.alterBoard.bind(this)
     }
     changePattern(signature: string, newState: boolean) {
-        const {activePatterns, initialRow} = this.state
+        const {activePatterns, initialRow, numOfRows, numOfCellsInRow} = this.state
         const newActivePatterns = activePatterns.indexOf(signature) >= 0
             ? activePatterns.filter(p => p !== signature)
             : activePatterns.concat([signature])
 
         this.setState({
             activePatterns: newActivePatterns,
-            boardState: createBoard(50, initialRow, newActivePatterns),
-            initialRow
+            boardState: createBoard(numOfRows, initialRow, newActivePatterns),
+            initialRow,
+            numOfRows,
+            numOfCellsInRow
+        })
+    }
+    alterBoard(rowIndex: number, cellIndex: number) {
+        const {boardState, activePatterns, initialRow, numOfCellsInRow, numOfRows} = this.state
+        const row = boardState[rowIndex]
+        const newState = row[cellIndex] === '0' ? '1' : '0'
+        const alteredRow = row
+            .slice(0, cellIndex)
+            .concat(newState)
+            .concat(row.slice(cellIndex + 1))
+        const newBoard = boardState
+            .slice(0, rowIndex)
+            .concat(createBoard(numOfRows - rowIndex, alteredRow, activePatterns))
+        this.setState({
+            boardState: newBoard,
+            activePatterns,
+            initialRow: rowIndex === 0? alteredRow: initialRow,
+            numOfRows,
+            numOfCellsInRow
         })
     }
     render() {
@@ -38,7 +66,9 @@ export default class extends React.PureComponent<{}, {
                 <Patterns
                     activePatterns={activePatterns}
                     changePattern={this.changePattern}/>
-                <Board rows={boardState}/>
+                <Board
+                rows={boardState}
+                alterBoard={this.alterBoard}/>
             </div>
         )
     }
