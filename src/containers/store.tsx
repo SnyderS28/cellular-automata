@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Board from '../components/board'
 import Patterns from './patterns'
+import Controls from '../components/controls'
 import {createBoard, createRandomRow, generateRandomActivePatterns} from '../utils'
 
 export default class extends React.PureComponent<{}, {
@@ -25,6 +26,7 @@ export default class extends React.PureComponent<{}, {
         }
         this.changePattern = this.changePattern.bind(this)
         this.alterBoard = this.alterBoard.bind(this)
+        this.generateRandomBoard = this.generateRandomBoard.bind(this)
     }
     changePattern(signature: string, newState: boolean) {
         const {activePatterns, initialRow, numOfRows, numOfCellsInRow} = this.state
@@ -59,10 +61,24 @@ export default class extends React.PureComponent<{}, {
             numOfCellsInRow
         })
     }
+    generateRandomBoard() {
+        const {activePatterns, initialRow, numOfRows, numOfCellsInRow} = this.state
+        const newBoard = createBoard(numOfRows, createRandomRow(numOfCellsInRow), activePatterns)
+        const newActivePatterns = generateRandomActivePatterns()
+        this.setState({
+           boardState: newBoard,
+           numOfCellsInRow,
+           numOfRows,
+           initialRow,
+           activePatterns: newActivePatterns
+        })
+    }
     render() {
         const {boardState, activePatterns} = this.state
         return (
             <div>
+                <Controls
+                generateRandomBoard={this.generateRandomBoard}/>
                 <Patterns
                     activePatterns={activePatterns}
                     changePattern={this.changePattern}/>
