@@ -91,14 +91,17 @@
 	            activePatterns: activePatterns,
 	            initialRow: initialRow,
 	            numOfRows: numOfRows,
-	            numOfCellsInRow: numOfCellsInRow
+	            numOfCellsInRow: numOfCellsInRow,
+	            isPlaying: false
 	        };
 	        this.changePattern = this.changePattern.bind(this);
 	        this.alterBoard = this.alterBoard.bind(this);
 	        this.generateRandomBoard = this.generateRandomBoard.bind(this);
+	        this.togglePlay = this.togglePlay.bind(this);
+	        this.play = this.play.bind(this);
 	    }
 	    default_1.prototype.changePattern = function (signature, newState) {
-	        var _a = this.state, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow;
+	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow;
 	        var newActivePatterns = activePatterns.indexOf(signature) >= 0
 	            ? activePatterns.filter(function (p) { return p !== signature; })
 	            : activePatterns.concat([signature]);
@@ -107,11 +110,12 @@
 	            boardState: utils_1.createBoard(numOfRows, initialRow, newActivePatterns),
 	            initialRow: initialRow,
 	            numOfRows: numOfRows,
-	            numOfCellsInRow: numOfCellsInRow
+	            numOfCellsInRow: numOfCellsInRow,
+	            isPlaying: isPlaying
 	        });
 	    };
 	    default_1.prototype.alterBoard = function (rowIndex, cellIndex) {
-	        var _a = this.state, boardState = _a.boardState, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows;
+	        var _a = this.state, isPlaying = _a.isPlaying, boardState = _a.boardState, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows;
 	        var row = boardState[rowIndex];
 	        var newState = row[cellIndex] === '0' ? '1' : '0';
 	        var alteredRow = row
@@ -126,25 +130,66 @@
 	            activePatterns: activePatterns,
 	            initialRow: rowIndex === 0 ? alteredRow : initialRow,
 	            numOfRows: numOfRows,
-	            numOfCellsInRow: numOfCellsInRow
+	            numOfCellsInRow: numOfCellsInRow,
+	            isPlaying: isPlaying
 	        });
 	    };
 	    default_1.prototype.generateRandomBoard = function () {
-	        var _a = this.state, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow;
-	        var newBoard = utils_1.createBoard(numOfRows, utils_1.createRandomRow(numOfCellsInRow), activePatterns);
+	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow;
 	        var newActivePatterns = utils_1.generateRandomActivePatterns();
+	        var newBoard = utils_1.createBoard(numOfRows, utils_1.createRandomRow(numOfCellsInRow), newActivePatterns);
 	        this.setState({
 	            boardState: newBoard,
 	            numOfCellsInRow: numOfCellsInRow,
 	            numOfRows: numOfRows,
-	            initialRow: initialRow,
-	            activePatterns: newActivePatterns
+	            initialRow: newBoard[0],
+	            activePatterns: newActivePatterns,
+	            isPlaying: isPlaying
+	        });
+	    };
+	    default_1.prototype.togglePlay = function () {
+	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow, boardState = _a.boardState;
+	        if (isPlaying) {
+	            this.setState({
+	                isPlaying: false,
+	                boardState: boardState,
+	                numOfCellsInRow: numOfCellsInRow,
+	                numOfRows: numOfRows,
+	                initialRow: initialRow,
+	                activePatterns: activePatterns
+	            });
+	        }
+	        else {
+	            this.play(true);
+	        }
+	    };
+	    default_1.prototype.play = function (isInitial) {
+	        var _this = this;
+	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow, boardState = _a.boardState;
+	        if (!isInitial && !isPlaying) {
+	            return;
+	        }
+	        var lastRow = utils_1.getLastItem(boardState);
+	        var newRow = utils_1.createNextRow(lastRow, activePatterns);
+	        var newBoard = boardState
+	            .slice(1)
+	            .concat([newRow]);
+	        var newInitialRow = newBoard[0];
+	        this.setState({
+	            isPlaying: true,
+	            boardState: newBoard,
+	            numOfCellsInRow: numOfCellsInRow,
+	            numOfRows: numOfRows,
+	            initialRow: newInitialRow,
+	            activePatterns: activePatterns
+	        }, function () {
+	            setTimeout(_this.play, 50);
 	        });
 	    };
 	    default_1.prototype.render = function () {
-	        var _a = this.state, boardState = _a.boardState, activePatterns = _a.activePatterns;
+	        var _a = this.state, boardState = _a.boardState, activePatterns = _a.activePatterns, isPlaying = _a.isPlaying;
 	        return (React.createElement("div", null, 
-	            React.createElement(controls_1.default, {generateRandomBoard: this.generateRandomBoard}), 
+	            React.createElement(controls_1.default, {generateRandomBoard: this.generateRandomBoard, togglePlay: this.togglePlay, isPlaying: isPlaying}), 
 	            React.createElement(patterns_1.default, {activePatterns: activePatterns, changePattern: this.changePattern}), 
 	            React.createElement(board_1.default, {rows: boardState, alterBoard: this.alterBoard})));
 	    };
@@ -407,10 +452,13 @@
 	        _super.apply(this, arguments);
 	    }
 	    default_1.prototype.render = function () {
+	        var _a = this.props, generateRandomBoard = _a.generateRandomBoard, togglePlay = _a.togglePlay, isPlaying = _a.isPlaying;
 	        return (React.createElement("div", {className: "controls"}, 
-	            React.createElement("img", {className: "controls__icon", src: "imgs/reload.svg", alt: "reload", onClick: this.props.generateRandomBoard}), 
-	            React.createElement("img", {className: "controls__icon", src: "imgs/play.svg", alt: "play"}), 
-	            React.createElement("img", {className: "controls__icon", src: "imgs/lamp.svg", alt: "help"})));
+	            React.createElement("img", {className: "controls__icon", src: "imgs/reload.svg", alt: "reload", onClick: generateRandomBoard}), 
+	            React.createElement("img", {className: "controls__icon", src: "imgs/" + (isPlaying ? 'pause' : 'play') + ".svg", alt: "play", onClick: togglePlay}), 
+	            React.createElement("a", {href: "http://mathworld.wolfram.com/CellularAutomaton.html", target: "help"}, 
+	                React.createElement("img", {className: "controls__icon", src: "imgs/lamp.svg", alt: "help"})
+	            )));
 	    };
 	    return default_1;
 	}(React.PureComponent));
@@ -532,6 +580,7 @@
 	function getLastItem(array) {
 	    return array[array.length - 1];
 	}
+	exports.getLastItem = getLastItem;
 	/**
 	 * This function generates random active patterns.
 	 * Each pattern is a string of 3 chars, eiter 0 or 1 i.e '010'
