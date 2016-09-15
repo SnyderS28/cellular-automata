@@ -1,0 +1,112 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    background-color: mediumaquamarine;
+    font-family: 'ubuntu', sans-serif;
+    color: #0F4C5C;
+}
+
+.title {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 70px;
+    color: #0F4C5C;
+    text-align: center;
+}
+
+.controls {
+    text-align: center;
+}
+
+.controls__icon {
+    margin: 0 5px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border .5s;
+    box-shadow: 2px 2px 1px rgba(0,0,0,0.3);
+}
+
+.controls__icon:hover {
+    border: 2px solid #0F4C5C;
+}
+
+.patterns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pattern-group {
+    margin: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    cursor: pointer;
+    border: 1px dashed transparent;
+    transition: border .5s;
+}
+
+.pattern-group:hover {
+    border: 1px dashed #0F4C5C;
+}
+
+.pattern__cell {
+    width: 10px;
+    height: 10px;
+    float: left;
+    background-color: seagreen;
+    transition: background-color .3s;
+}
+
+.pattern__cell--active {
+    background-color: #0F4C5C;
+}
+
+.board {
+    clear: both;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    background-color: seagreen;
+    box-shadow: 3px 3px 10px 8px rgba(0,0,0,0.3);
+}
+
+.cell {
+    width: 10px;
+    height: 10px;
+    float: left;
+    background-color: seagreen;
+    box-sizing: border-box;
+    border: 2px dashed seagreen;
+    cursor: pointer;
+}
+
+.cell:hover {
+    border: 2px dashed #482728;
+}
+
+.cell--active {
+    background-color: #0F4C5C;
+    border: 2px dashed #0F4C5C;
+}
+
+.footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    color: #ddd;
+    background-color: #37323E;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.footer__link {
+    color: #ddd;
+}
+
+.footer__link:hover {
+    color: #999;
+}
