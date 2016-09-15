@@ -19,10 +19,12 @@ export default class extends React.PureComponent<{
                 src={`imgs/${isPlaying? 'pause': 'play'}.svg`}
                 alt="play"
                 onClick={togglePlay}/>
-                <img
-                className="controls__icon"
-                src="imgs/lamp.svg"
-                alt="help"/>
+                <a href="http://mathworld.wolfram.com/CellularAutomaton.html" target="help">
+                    <img
+                    className="controls__icon"
+                    src="imgs/lamp.svg"
+                    alt="help"/>
+                </a>
             </div>
         )
     }
