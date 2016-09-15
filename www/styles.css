@@ -2,11 +2,36 @@ html, body {
     margin: 0;
     height: 100%;
     display: flex;
+    flex-flow: column;
     justify-content: center;
     background-color: mediumaquamarine;
+    font-family: 'ubuntu', sans-serif;
+    color: #0F4C5C;
+}
+
+.title {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 70px;
+    color: #0F4C5C;
+    text-align: center;
+}
+
+.patterns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pattern-group {
+    padding: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    cursor: pointer;
 }
 
 .board {
+    clear: both;
     width: 500px;
     height: 500px;
     margin: auto;
@@ -18,6 +43,7 @@ html, body {
     width: 10px;
     height: 10px;
     float: left;
+    background-color: seagreen;
 }
 
 .cell--active {

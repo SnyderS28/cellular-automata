@@ -15,7 +15,7 @@ describe('createRandomRow', () => {
         expect(createRandomRow(5).length).to.equal(5)
     })
     it('should return a string thatcontains only 1\'s and 0\'s', function() {
-        expect(createRandomRow(7)).to.match(/[01]{7}/)
+        expect(createRandomRow(7)).to.match(/^[01]{7}$/)
     })
     it('should return an empty string if given 0 as an argument', function() {
         expect(createRandomRow(0)).to.equal('')
@@ -115,7 +115,7 @@ describe('generateRandomActivePatterns', () => {
         const actual = generateRandomActivePatterns()
         expect(actual).to.be.an('array')
         actual.forEach(pattern =>
-            expect(pattern).to.match(/[01]{3}/)
+            expect(pattern).to.match(/^[01]{3}$/)
         )
     })
     it('should return an array of length between 0 and 9', function() {

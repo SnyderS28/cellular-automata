@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {render} from 'react-dom'
-import Board from './containers/board'
+import Store from './containers/store'
 
 render(
-    <Board/>,
-    document.querySelector('.board')
+    <Store/>,
+    document.getElementById('app')
 )

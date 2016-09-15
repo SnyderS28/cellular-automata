@@ -13,7 +13,7 @@ export default class extends React.Component<{rows: string[]}, {}>{
                 .map(s => Boolean(Number(s)))
         )
         return (
-            <div>{
+            <div className="board">{
                 rows.map(row => (
                         <Row cells={row}/>
                     ))

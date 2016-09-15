@@ -137,7 +137,7 @@ function getLastItem<T>(array: T[]):T {
  */
 export function generateRandomActivePatterns(): string[] {
     const activePatterns: string[] = []
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 8; i++) {
         const randomBinaryValue = generateRandomBinaryValue()
         if (randomBinaryValue) {
             const iBinaryString = i.toString(2)
