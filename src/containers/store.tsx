@@ -3,7 +3,7 @@ import Board from '../components/board'
 import Patterns from './patterns'
 import {createBoard, createRandomRow, generateRandomActivePatterns} from '../utils'
 
-export default class extends React.Component<{}, {
+export default class extends React.PureComponent<{}, {
     boardState: string[],
     activePatterns: string[],
     initialRow: string

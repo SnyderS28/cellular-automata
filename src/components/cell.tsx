@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-export default class extends React.Component<{isActive: boolean}, {}>{
+export default class extends React.PureComponent<{isActive: boolean}, {}>{
     render() {
         const {isActive} = this.props
         return (

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Row from './row'
 
-export default class extends React.Component<{rows: string[]}, {}>{
+export default class extends React.PureComponent<{rows: string[]}, {}>{
     render() {
         /**
          * Represents the board state
