@@ -34,5 +34,8 @@ module.exports = {
     },
     ts: {
         configFileName: "ts-loader.config.json"
+    },
+    devServer: {
+        inline: true
     }
 };

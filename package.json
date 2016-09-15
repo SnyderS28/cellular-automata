@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "tsc --watch & mocha bin/*.test.js --watch",
+    "test": "tsc && (tsc --watch | mocha bin/*.test.js --watch)",
+    "start": "webpack-dev-server",
     "bundle": "webpack"
   },
   "keywords": [],
@@ -21,7 +22,8 @@
     "source-map-loader": "^0.1.5",
     "ts-loader": "^0.8.2",
     "typescript": "^2.0.2",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.2"
   },
   "dependencies": {
     "react": "^15.3.1",
