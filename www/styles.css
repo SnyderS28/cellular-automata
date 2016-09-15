@@ -49,3 +49,20 @@ html, body {
 .cell--active {
     background-color: #0F4C5C;
 }
+
+.footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    color: #ddd;
+    background-color: #37323E;
+    text-align: center;
+}
+
+.footer__link {
+    color: #ddd;
+}
+
+.footer__link:hover {
+    color: #999;
+}
