@@ -1,6 +1,10 @@
-html, body {
+html {
+    height: 100%
+}
+
+body {
     margin: 0;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -69,7 +73,7 @@ html, body {
     clear: both;
     width: 500px;
     height: 500px;
-    margin: auto;
+    margin: 50px auto;
     background-color: seagreen;
     box-shadow: 3px 3px 10px 8px rgba(0,0,0,0.3);
 }
