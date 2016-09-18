@@ -11,12 +11,13 @@ import {
 } from '../utils'
 
 export default class extends React.PureComponent<{}, {
-    boardState: string[],
     activePatterns: string[],
+    boardState: string[],
     initialRow: string,
-    numOfRows: number,
-    numOfCellsInRow: number,
     isPlaying: boolean,
+    numOfCellsInRow: number,
+    numOfRows: number,
+    rowKeyOffset: number
 }> {
     constructor() {
         super()
@@ -25,12 +26,13 @@ export default class extends React.PureComponent<{}, {
         const numOfCellsInRow = 50
         const initialRow = createRandomRow(numOfCellsInRow)
         this.state = {
-            boardState: createBoard(numOfRows, initialRow, activePatterns),
             activePatterns,
+            boardState: createBoard(numOfRows, initialRow, activePatterns),
             initialRow,
-            numOfRows,
+            isPlaying: false,
             numOfCellsInRow,
-            isPlaying: false
+            numOfRows,
+            rowKeyOffset: 0
         }
         this.changePattern = this.changePattern.bind(this)
         this.alterBoard = this.alterBoard.bind(this)
@@ -39,7 +41,15 @@ export default class extends React.PureComponent<{}, {
         this.play = this.play.bind(this)
     }
     changePattern(signature: string, newState: boolean) {
-        const {isPlaying, activePatterns, initialRow, numOfRows, numOfCellsInRow} = this.state
+        const {
+            activePatterns,
+            boardState,
+            initialRow,
+            isPlaying,
+            numOfCellsInRow,
+            numOfRows,
+            rowKeyOffset,
+        } = this.state
         const newActivePatterns = activePatterns.indexOf(signature) >= 0
             ? activePatterns.filter(p => p !== signature)
             : activePatterns.concat([signature])
@@ -50,11 +60,20 @@ export default class extends React.PureComponent<{}, {
             initialRow,
             numOfRows,
             numOfCellsInRow,
-            isPlaying
+            isPlaying,
+            rowKeyOffset
         })
     }
     alterBoard(rowIndex: number, cellIndex: number) {
-        const {isPlaying, boardState, activePatterns, initialRow, numOfCellsInRow, numOfRows} = this.state
+        const {
+            activePatterns,
+            boardState,
+            initialRow,
+            isPlaying,
+            numOfCellsInRow,
+            numOfRows,
+            rowKeyOffset,
+        } = this.state
         const row = boardState[rowIndex]
         const newState = row[cellIndex] === '0' ? '1' : '0'
         const alteredRow = row
@@ -65,44 +84,56 @@ export default class extends React.PureComponent<{}, {
             .slice(0, rowIndex)
             .concat(createBoard(numOfRows - rowIndex, alteredRow, activePatterns))
         this.setState({
-            boardState: newBoard,
             activePatterns,
-            initialRow: rowIndex === 0? alteredRow: initialRow,
+            boardState: newBoard,
+            initialRow: rowIndex === 0 ? alteredRow : initialRow,
+            isPlaying,
             numOfRows,
             numOfCellsInRow,
-            isPlaying
+            rowKeyOffset
         })
     }
     generateRandomBoard() {
-        const {isPlaying, activePatterns, initialRow, numOfRows, numOfCellsInRow} = this.state
+        const {
+            activePatterns,
+            boardState,
+            initialRow,
+            isPlaying,
+            numOfCellsInRow,
+            numOfRows,
+            rowKeyOffset,
+        } = this.state
         const newActivePatterns = generateRandomActivePatterns()
         const newBoard = createBoard(numOfRows, createRandomRow(numOfCellsInRow), newActivePatterns)
         this.setState({
+           activePatterns: newActivePatterns,
            boardState: newBoard,
+           initialRow: newBoard[0],
+           isPlaying,
            numOfCellsInRow,
            numOfRows,
-           initialRow: newBoard[0],
-           activePatterns: newActivePatterns,
-           isPlaying
+           rowKeyOffset
         })
     }
     togglePlay() {
         const {
-            isPlaying,
             activePatterns,
+            boardState,
             initialRow,
-            numOfRows,
+            isPlaying,
             numOfCellsInRow,
-            boardState
+            numOfRows,
+            rowKeyOffset,
         } = this.state
         if (isPlaying) {
             this.setState({
-                isPlaying: false,
+                activePatterns,
                 boardState,
+                initialRow,
+                isPlaying: false,
                 numOfCellsInRow,
                 numOfRows,
-                initialRow,
-                activePatterns
+                rowKeyOffset
             })
         } else {
             this.play(true)
@@ -110,12 +141,13 @@ export default class extends React.PureComponent<{}, {
     }
     play(isInitial: boolean) {
         const {
-            isPlaying,
             activePatterns,
+            boardState,
             initialRow,
-            numOfRows,
+            isPlaying,
             numOfCellsInRow,
-            boardState
+            numOfRows,
+            rowKeyOffset,
         } = this.state
         if (!isInitial && !isPlaying) {
             return
@@ -127,18 +159,24 @@ export default class extends React.PureComponent<{}, {
             .concat([newRow])
         const newInitialRow = newBoard[0]
         this.setState({
-            isPlaying: true,
+            activePatterns,
             boardState: newBoard,
+            initialRow: newInitialRow,
+            isPlaying: true,
             numOfCellsInRow,
             numOfRows,
-            initialRow: newInitialRow,
-            activePatterns
+            rowKeyOffset: (rowKeyOffset + 1) % (numOfRows + 1)
         }, () => {
             setTimeout(this.play, 50)
         })
     }
     render() {
-        const {boardState, activePatterns, isPlaying} = this.state
+        const {
+            activePatterns,
+            boardState,
+            isPlaying,
+            rowKeyOffset
+        } = this.state
         return (
             <div>
                 <Controls
@@ -149,8 +187,10 @@ export default class extends React.PureComponent<{}, {
                     activePatterns={activePatterns}
                     changePattern={this.changePattern}/>
                 <Board
+                alterBoard={this.alterBoard}
+                isPlaying={isPlaying}
                 rows={boardState}
-                alterBoard={this.alterBoard}/>
+                rowKeyOffset={rowKeyOffset}/>
             </div>
         )
     }
