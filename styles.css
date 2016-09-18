@@ -1,6 +1,10 @@
-html, body {
+html {
+    height: 100%
+}
+
+body {
     margin: 0;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -69,9 +73,15 @@ html, body {
     clear: both;
     width: 500px;
     height: 500px;
-    margin: auto;
+    margin: 50px auto;
     background-color: seagreen;
     box-shadow: 3px 3px 10px 8px rgba(0,0,0,0.3);
+}
+
+.row:after {
+    clear: both;
+    content: '';
+    display: block;
 }
 
 .cell {
@@ -80,17 +90,23 @@ html, body {
     float: left;
     background-color: seagreen;
     box-sizing: border-box;
-    border: 2px dashed seagreen;
-    cursor: pointer;
-}
-
-.cell:hover {
-    border: 2px dashed #482728;
+    position: relative;
 }
 
 .cell--active {
     background-color: #0F4C5C;
-    border: 2px dashed #0F4C5C;
+}
+
+.cell--interactive:hover:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px dashed #482728;
+    cursor: pointer;
 }
 
 .footer {

@@ -87,12 +87,13 @@
 	        var numOfCellsInRow = 50;
 	        var initialRow = utils_1.createRandomRow(numOfCellsInRow);
 	        this.state = {
-	            boardState: utils_1.createBoard(numOfRows, initialRow, activePatterns),
 	            activePatterns: activePatterns,
+	            boardState: utils_1.createBoard(numOfRows, initialRow, activePatterns),
 	            initialRow: initialRow,
-	            numOfRows: numOfRows,
+	            isPlaying: false,
 	            numOfCellsInRow: numOfCellsInRow,
-	            isPlaying: false
+	            numOfRows: numOfRows,
+	            rowKeyOffset: 0
 	        };
 	        this.changePattern = this.changePattern.bind(this);
 	        this.alterBoard = this.alterBoard.bind(this);
@@ -101,7 +102,7 @@
 	        this.play = this.play.bind(this);
 	    }
 	    default_1.prototype.changePattern = function (signature, newState) {
-	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow;
+	        var _a = this.state, activePatterns = _a.activePatterns, boardState = _a.boardState, initialRow = _a.initialRow, isPlaying = _a.isPlaying, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows, rowKeyOffset = _a.rowKeyOffset;
 	        var newActivePatterns = activePatterns.indexOf(signature) >= 0
 	            ? activePatterns.filter(function (p) { return p !== signature; })
 	            : activePatterns.concat([signature]);
@@ -111,11 +112,12 @@
 	            initialRow: initialRow,
 	            numOfRows: numOfRows,
 	            numOfCellsInRow: numOfCellsInRow,
-	            isPlaying: isPlaying
+	            isPlaying: isPlaying,
+	            rowKeyOffset: rowKeyOffset
 	        });
 	    };
 	    default_1.prototype.alterBoard = function (rowIndex, cellIndex) {
-	        var _a = this.state, isPlaying = _a.isPlaying, boardState = _a.boardState, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows;
+	        var _a = this.state, activePatterns = _a.activePatterns, boardState = _a.boardState, initialRow = _a.initialRow, isPlaying = _a.isPlaying, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows, rowKeyOffset = _a.rowKeyOffset;
 	        var row = boardState[rowIndex];
 	        var newState = row[cellIndex] === '0' ? '1' : '0';
 	        var alteredRow = row
@@ -126,37 +128,40 @@
 	            .slice(0, rowIndex)
 	            .concat(utils_1.createBoard(numOfRows - rowIndex, alteredRow, activePatterns));
 	        this.setState({
-	            boardState: newBoard,
 	            activePatterns: activePatterns,
+	            boardState: newBoard,
 	            initialRow: rowIndex === 0 ? alteredRow : initialRow,
+	            isPlaying: isPlaying,
 	            numOfRows: numOfRows,
 	            numOfCellsInRow: numOfCellsInRow,
-	            isPlaying: isPlaying
+	            rowKeyOffset: rowKeyOffset
 	        });
 	    };
 	    default_1.prototype.generateRandomBoard = function () {
-	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow;
+	        var _a = this.state, activePatterns = _a.activePatterns, boardState = _a.boardState, initialRow = _a.initialRow, isPlaying = _a.isPlaying, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows, rowKeyOffset = _a.rowKeyOffset;
 	        var newActivePatterns = utils_1.generateRandomActivePatterns();
 	        var newBoard = utils_1.createBoard(numOfRows, utils_1.createRandomRow(numOfCellsInRow), newActivePatterns);
 	        this.setState({
+	            activePatterns: newActivePatterns,
 	            boardState: newBoard,
+	            initialRow: newBoard[0],
+	            isPlaying: isPlaying,
 	            numOfCellsInRow: numOfCellsInRow,
 	            numOfRows: numOfRows,
-	            initialRow: newBoard[0],
-	            activePatterns: newActivePatterns,
-	            isPlaying: isPlaying
+	            rowKeyOffset: rowKeyOffset
 	        });
 	    };
 	    default_1.prototype.togglePlay = function () {
-	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow, boardState = _a.boardState;
+	        var _a = this.state, activePatterns = _a.activePatterns, boardState = _a.boardState, initialRow = _a.initialRow, isPlaying = _a.isPlaying, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows, rowKeyOffset = _a.rowKeyOffset;
 	        if (isPlaying) {
 	            this.setState({
-	                isPlaying: false,
+	                activePatterns: activePatterns,
 	                boardState: boardState,
+	                initialRow: initialRow,
+	                isPlaying: false,
 	                numOfCellsInRow: numOfCellsInRow,
 	                numOfRows: numOfRows,
-	                initialRow: initialRow,
-	                activePatterns: activePatterns
+	                rowKeyOffset: rowKeyOffset
 	            });
 	        }
 	        else {
@@ -165,7 +170,7 @@
 	    };
 	    default_1.prototype.play = function (isInitial) {
 	        var _this = this;
-	        var _a = this.state, isPlaying = _a.isPlaying, activePatterns = _a.activePatterns, initialRow = _a.initialRow, numOfRows = _a.numOfRows, numOfCellsInRow = _a.numOfCellsInRow, boardState = _a.boardState;
+	        var _a = this.state, activePatterns = _a.activePatterns, boardState = _a.boardState, initialRow = _a.initialRow, isPlaying = _a.isPlaying, numOfCellsInRow = _a.numOfCellsInRow, numOfRows = _a.numOfRows, rowKeyOffset = _a.rowKeyOffset;
 	        if (!isInitial && !isPlaying) {
 	            return;
 	        }
@@ -176,22 +181,23 @@
 	            .concat([newRow]);
 	        var newInitialRow = newBoard[0];
 	        this.setState({
-	            isPlaying: true,
+	            activePatterns: activePatterns,
 	            boardState: newBoard,
+	            initialRow: newInitialRow,
+	            isPlaying: true,
 	            numOfCellsInRow: numOfCellsInRow,
 	            numOfRows: numOfRows,
-	            initialRow: newInitialRow,
-	            activePatterns: activePatterns
+	            rowKeyOffset: (rowKeyOffset + 1) % (numOfRows + 1)
 	        }, function () {
 	            setTimeout(_this.play, 50);
 	        });
 	    };
 	    default_1.prototype.render = function () {
-	        var _a = this.state, boardState = _a.boardState, activePatterns = _a.activePatterns, isPlaying = _a.isPlaying;
+	        var _a = this.state, activePatterns = _a.activePatterns, boardState = _a.boardState, isPlaying = _a.isPlaying, rowKeyOffset = _a.rowKeyOffset;
 	        return (React.createElement("div", null, 
 	            React.createElement(controls_1.default, {generateRandomBoard: this.generateRandomBoard, togglePlay: this.togglePlay, isPlaying: isPlaying}), 
 	            React.createElement(patterns_1.default, {activePatterns: activePatterns, changePattern: this.changePattern}), 
-	            React.createElement(board_1.default, {rows: boardState, alterBoard: this.alterBoard})));
+	            React.createElement(board_1.default, {alterBoard: this.alterBoard, isPlaying: isPlaying, rows: boardState, rowKeyOffset: rowKeyOffset})));
 	    };
 	    return default_1;
 	}(React.PureComponent));
@@ -217,16 +223,8 @@
 	        _super.apply(this, arguments);
 	    }
 	    default_1.prototype.render = function () {
-	        var _this = this;
-	        /**
-	         * Represents the board state
-	         * constains rows of cell states
-	         * if cell is active its value is true, else false
-	         */
-	        var rows = this.props.rows
-	            .map(function (str) { return str.split('')
-	            .map(function (s) { return Boolean(Number(s)); }); });
-	        return (React.createElement("div", {className: "board"}, rows.map(function (row, i) { return (React.createElement(row_1.default, {cells: row, key: i, rowIndex: i, alterBoard: _this.props.alterBoard})); })));
+	        var _a = this.props, alterBoard = _a.alterBoard, isPlaying = _a.isPlaying, rows = _a.rows, rowKeyOffset = _a.rowKeyOffset;
+	        return (React.createElement("div", {className: "board"}, rows.map(function (row, i) { return (React.createElement(row_1.default, {cells: row, key: i + rowKeyOffset, rowIndex: isPlaying ? undefined : i, alterBoard: isPlaying ? undefined : alterBoard})); })));
 	    };
 	    return default_1;
 	}(React.PureComponent));
@@ -253,7 +251,10 @@
 	    }
 	    default_1.prototype.render = function () {
 	        var _a = this.props, cells = _a.cells, rowIndex = _a.rowIndex, alterBoard = _a.alterBoard;
-	        return (React.createElement("div", null, cells.map(function (isActive, i) {
+	        var cellsBoolean = cells
+	            .split('')
+	            .map(function (s) { return Boolean(Number(s)); });
+	        return (React.createElement("div", {className: "row"}, cellsBoolean.map(function (isActive, i) {
 	            return React.createElement(cell_1.default, {isActive: isActive, rowIndex: rowIndex, alterBoard: alterBoard, cellIndex: i, key: i});
 	        })));
 	    };
@@ -281,7 +282,9 @@
 	    }
 	    default_1.prototype.render = function () {
 	        var _a = this.props, isActive = _a.isActive, rowIndex = _a.rowIndex, cellIndex = _a.cellIndex, alterBoard = _a.alterBoard;
-	        return (React.createElement("div", {className: "cell" + (isActive ? ' cell--active' : ''), onClick: function () { return alterBoard(rowIndex, cellIndex); }}));
+	        return (React.createElement("div", {className: "cell" + (isActive ? ' cell--active' : '') + (alterBoard ? ' cell--interactive' : ''), onClick: alterBoard && rowIndex && cellIndex ?
+	            function () { return alterBoard(rowIndex, cellIndex); }
+	            : undefined}));
 	    };
 	    return default_1;
 	}(React.PureComponent));
@@ -615,3 +618,4 @@
 
 /***/ }
 /******/ ]);
+//# sourceMappingURL=script.js.map
