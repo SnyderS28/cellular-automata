@@ -74,23 +74,35 @@ html, body {
     box-shadow: 3px 3px 10px 8px rgba(0,0,0,0.3);
 }
 
+.row:after {
+    clear: both;
+    content: '';
+    display: block;
+}
+
 .cell {
     width: 10px;
     height: 10px;
     float: left;
     background-color: seagreen;
     box-sizing: border-box;
-    border: 2px dashed seagreen;
-    cursor: pointer;
-}
-
-.cell:hover {
-    border: 2px dashed #482728;
+    position: relative;
 }
 
 .cell--active {
     background-color: #0F4C5C;
-    border: 2px dashed #0F4C5C;
+}
+
+.cell--interactive:hover:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px dashed #482728;
+    cursor: pointer;
 }
 
 .footer {
