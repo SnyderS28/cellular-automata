@@ -282,7 +282,7 @@
 	    }
 	    default_1.prototype.render = function () {
 	        var _a = this.props, isActive = _a.isActive, rowIndex = _a.rowIndex, cellIndex = _a.cellIndex, alterBoard = _a.alterBoard;
-	        return (React.createElement("div", {className: "cell" + (isActive ? ' cell--active' : '') + (alterBoard ? ' cell--interactive' : ''), onClick: alterBoard && rowIndex && cellIndex ?
+	        return (React.createElement("div", {className: "cell" + (isActive ? ' cell--active' : '') + (alterBoard ? ' cell--interactive' : ''), onClick: alterBoard ?
 	            function () { return alterBoard(rowIndex, cellIndex); }
 	            : undefined}));
 	    };
