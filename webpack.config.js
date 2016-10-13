@@ -1,7 +1,8 @@
 module.exports = {
     entry: "./src/app.tsx",
     output: {
-        filename: "./www/script.js",
+        path: __dirname + "/www",
+        filename: "script.js",
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -36,6 +37,7 @@ module.exports = {
         configFileName: "ts-loader.config.json"
     },
     devServer: {
-        inline: true
+        inline: true,
+        contentBase: 'www'
     }
 };
